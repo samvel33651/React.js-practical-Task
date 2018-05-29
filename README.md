@@ -1,0 +1,2 @@
+# ScopicDjangoTest
+Django "Frontend" Task
