@@ -49,7 +49,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "node server.js",
     "build": "NODE_ENV=development node ./node_modules/webpack/bin/webpack --config ./config/webpack.config.dev.js  --progress",
     "test": "node scripts/test.js --env=jsdom",
     "watch": "node server.js"
