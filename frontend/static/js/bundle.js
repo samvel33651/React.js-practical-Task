@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "15572cd8fcbb5895cad5"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e88f84a87127180ea76f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -72404,7 +72404,7 @@ var _initialiseProps = function _initialiseProps() {
         var month = dateObj.getUTCMonth() + 1 < 10 ? '0' + (dateObj.getUTCMonth() + 1) : dateObj.getUTCMonth() + 1;
         var year = dateObj.getFullYear().toString().substr(-2);
         var lastOrder = _this3.state.orders[_this3.state.orders.length - 1];
-        var lastNum = parseInt(lastOrder.id.substr(-3));
+        var lastNum = lastOrder ? parseInt(lastOrder.id.substr(-3)) : 0;
         var newOrderId = lastNum + 1 < 10 ? '00' + (lastNum + 1) : lastNum + 1 < 100 ? '0' + (lastNum + 1) : lastNum + 1;
         order.id = 'ORD-' + month + year + '-' + newOrderId;
         var orders = _this3.state.orders;
@@ -72739,6 +72739,7 @@ var AddItem = function (_React$Component) {
                                 name: 'price',
                                 className: classes.newItemInput,
                                 type: 'number',
+                                step: '0.01',
                                 onChange: this.changeItem.bind(this),
                                 min: '1', value: this.state.price
                             })
@@ -74095,8 +74096,11 @@ var AddNewOrder = function (_React$Component) {
         };
 
         _this.changeItem = function (index, event) {
+            var value = event.target.value;
             var items = _this.state.items;
-            items[index][event.target.name] = event.target.value ? event.target.value : 1;
+            console.log(items);
+            console.log(event.target.value);
+            items[index][event.target.name] = value ? value : 1;
             _this.setState({ items: items });
         };
 
@@ -74112,7 +74116,7 @@ var AddNewOrder = function (_React$Component) {
             date: '',
             price: '',
             locked: false,
-            items: [{ name: 'book', quantity: 10, price: 15 }, { name: 'notebook', quantity: 15, price: 7.5 }],
+            items: [],
             isOpen: false,
             cancelModalOpen: false
         };
@@ -74165,7 +74169,7 @@ var AddNewOrder = function (_React$Component) {
                 date: this.state.date,
                 price: itemsData.extPrice,
                 items: this.state.items,
-                locked: this.satte.locked
+                locked: this.state.locked
             };
             if (order.date) {
                 this.props.handleOrderSave(order);
@@ -74248,8 +74252,8 @@ var AddNewOrder = function (_React$Component) {
                                 'Date:'
                             ),
                             _react2.default.createElement('input', { type: 'date',
-                                max: '2017-08-30',
-                                min: '2017-01-09',
+                                max: '2018-01-06',
+                                min: '2018-30-06',
                                 disabled: this.state.locked,
                                 onChange: this.changeInput,
                                 name: 'date',
@@ -74476,8 +74480,10 @@ var AddNewOrder = function (_React$Component) {
                                         null,
                                         _react2.default.createElement('input', {
                                             type: 'number',
+                                            name: 'price',
                                             onChange: _this2.changeItem.bind(_this2, key),
                                             min: '1', value: item.price,
+                                            step: '0.01',
                                             disabled: _this2.state.locked
                                         })
                                     ),

@@ -57,7 +57,7 @@ class AddItem extends React.Component {
             } else {
                 this.setState({[event.target.name]: parseInt(event.target.value)})
             }
-            
+
         }
 
         render() {
@@ -109,6 +109,7 @@ class AddItem extends React.Component {
                                 name="price"
                                 className={classes.newItemInput}
                                 type="number"
+                                step="0.01"
                                 onChange={this.changeItem.bind(this)}
                                 min="1" value={this.state.price}
                             />

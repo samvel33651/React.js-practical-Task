@@ -160,8 +160,7 @@ class AddNewOrder extends React.Component {
             price: '',
             locked: false,
             items: [
-                {name : 'book', quantity: 10, price: 15},
-                {name : 'notebook', quantity: 15, price: 7.5}
+
             ],
             isOpen: false,
             cancelModalOpen: false,
@@ -195,10 +194,13 @@ class AddNewOrder extends React.Component {
         this.setState(items);
     };
 
-    changeItem = ( index, event) => {
-        const items = this.state.items;
-        items[index][event.target.name] = event.target.value ? event.target.value : 1;
-        this.setState({items});
+    changeItem = (index, event) => {
+        let value = event.target.value;
+        let items = this.state.items;
+        console.log(items);
+        console.log(event.target.value)
+        items[index][event.target.name] = value ? value : 1;
+        this.setState({items: items});
     };
 
     handleAddNewItem = item => {
@@ -229,7 +231,7 @@ class AddNewOrder extends React.Component {
             date: this.state.date,
             price: itemsData.extPrice,
             items: this.state.items,
-            locked: this.satte.locked
+            locked: this.state.locked
         }
         if(order.date){
             this.props.handleOrderSave(order);
@@ -276,8 +278,8 @@ class AddNewOrder extends React.Component {
                             <label className={classes.inputLabel}>Date:</label>
 
                             <input type="date"
-                                max="2017-08-30"
-                                min="2017-01-09"
+                                max="2018-01-06"
+                                min="2018-30-06"
                                 disabled= {this.state.locked}
                                 onChange={this.changeInput}
                                 name="date"
@@ -374,8 +376,10 @@ class AddNewOrder extends React.Component {
                                         <TableCell>
                                             <input
                                                 type="number"
+                                                name='price'
                                                 onChange={this.changeItem.bind(this, key)}
                                                 min="1" value={item.price}
+                                                step='0.01'
                                                 disabled={this.state.locked}
                                             />
                                         </TableCell>

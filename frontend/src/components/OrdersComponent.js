@@ -51,7 +51,7 @@ class OrdersPage extends React.Component {
         let month = dateObj.getUTCMonth() + 1 < 10 ? '0'+(dateObj.getUTCMonth() + 1): dateObj.getUTCMonth() + 1 ;
         let year = dateObj.getFullYear().toString().substr(-2);
         let lastOrder = this.state.orders[this.state.orders.length-1]
-        let lastNum = parseInt(lastOrder.id.substr(-3));
+        let lastNum =lastOrder? parseInt(lastOrder.id.substr(-3)): 0;
         let newOrderId =lastNum+1< 10? '00'+(lastNum+1) : lastNum+1< 100?'0'+ (lastNum+1): lastNum+1;
         order.id = 'ORD-'+month+year+'-'+newOrderId;
         let orders = this.state.orders;
