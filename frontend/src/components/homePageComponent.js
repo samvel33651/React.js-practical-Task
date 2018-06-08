@@ -64,7 +64,14 @@ class HomePage extends React.Component {
                 selectedTab: 'orders',
             }
             this.handleNewTab = this.handleNewTab.bind(this);
+            this.cancelChanges = this.cancelChanges.bind(this);
         };
+        cancelChanges = id => {
+            let tabs = this.state.tabs.filter(x => x !== id);
+            this.setState({tabs: tabs});
+            this.setState({selectedTab: 'orders'});
+        };
+
         handleNewTab = id => {
             let tabs = this.state.tabs;
             if(!this.state.tabs.includes(id)){
@@ -75,11 +82,6 @@ class HomePage extends React.Component {
         };
 
         handleChange = (event, value) => {
-            let tabs = this.state.tabs;
-            if(!this.state.tabs.includes(value)){
-                tabs.push(value);
-                this.setState({tabs: tabs});
-            }
             this.setState({ selectedTab: value });
             this.forceUpdate();
         };
@@ -111,7 +113,7 @@ class HomePage extends React.Component {
                     </Tabs>
                     { this.state.selectedTab === 'orders'
                         ? <OrdersComponent openNewTab={this.handleNewTab}/>
-                        : <EditOrder orderId={this.state.selectedTab}/>
+                        : <EditOrder orderId={this.state.selectedTab} onCancel= {this.cancelChanges} />
                     }
                 </div>
             );

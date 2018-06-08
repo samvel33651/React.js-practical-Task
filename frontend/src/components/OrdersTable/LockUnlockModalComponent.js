@@ -9,7 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 class LockUnlockModal extends React.Component {
 
       handleClose = () => {
-          console.log('close clicked')
           this.props.closeHandler();
       };
 

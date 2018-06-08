@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e88f84a87127180ea76f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f1da5f5b17ff5798ac26"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -72623,7 +72623,6 @@ var AddItem = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (AddItem.__proto__ || Object.getPrototypeOf(AddItem)).call(this, props));
 
         _this.handleClose = function () {
-            console.log('close clicked');
             _this.props.handleClose();
         };
 
@@ -73109,6 +73108,10 @@ var _CancelOrderModalComponent = __webpack_require__(/*! ./CancelOrderModalCompo
 
 var _CancelOrderModalComponent2 = _interopRequireDefault(_CancelOrderModalComponent);
 
+var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -73291,7 +73294,6 @@ var EditOrder = function (_React$Component) {
         var order = orders.find(function (x) {
             return x.id === _this.props.orderId;
         });
-        console.log(order);
         _this.state = {
             id: order.id,
             date: order.date,
@@ -73323,6 +73325,21 @@ var EditOrder = function (_React$Component) {
             };
         }
     }, {
+        key: 'currentMonth',
+        value: function currentMonth() {
+            var date = new Date(),
+                y = date.getFullYear(),
+                m = date.getMonth();
+            var firstDay = new Date(y, m, 1);
+            var lastDay = new Date(y, m + 1, 0);
+            return {
+                currentDate: (0, _moment2.default)(date).format('YYYY-MM-DD'),
+                firstDay: (0, _moment2.default)(firstDay).format('YYYY-MM-DD'),
+                lastDay: (0, _moment2.default)(lastDay).format('YYYY-MM-DD')
+
+            };
+        }
+    }, {
         key: 'addItemModalCloseHandler',
         value: function addItemModalCloseHandler() {
             this.setState({ isOpen: false });
@@ -73335,7 +73352,7 @@ var EditOrder = function (_React$Component) {
     }, {
         key: 'cancelOrder',
         value: function cancelOrder() {
-            this.props.cancelOrderChanges();
+            this.props.onCancel(this.state.id);
         }
     }, {
         key: 'cancelModalCloseHandler',
@@ -73375,6 +73392,7 @@ var EditOrder = function (_React$Component) {
             var classes = this.props.classes;
 
             var orderDeatils = this.getExtPrice();
+            var date = this.currentMonth();
             return _react2.default.createElement(
                 'div',
                 { className: classes.newOrderContainer },
@@ -73440,9 +73458,9 @@ var EditOrder = function (_React$Component) {
                                 'Date:'
                             ),
                             _react2.default.createElement('input', { type: 'date',
-                                max: '2017-08-30',
-                                min: '2017-01-09',
-                                value: this.state.date,
+                                min: date.firstDay,
+                                max: date.lastDay,
+                                value: date.currentDate,
                                 disabled: this.state.locked,
                                 onChange: this.changeInput,
                                 name: 'date',
@@ -73682,7 +73700,7 @@ var EditOrder = function (_React$Component) {
                                     _react2.default.createElement(
                                         _TableCell2.default,
                                         null,
-                                        _react2.default.createElement(_Delete2.default, { onClick: _this3.handleItemDlete.bind(_this3, key) })
+                                        !_this3.state.locked ? _react2.default.createElement(_Delete2.default, { onClick: _this3.handleItemDlete.bind(_this3, key) }) : null
                                     )
                                 );
                             })
@@ -73783,7 +73801,6 @@ var LockUnlockModal = function (_React$Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = LockUnlockModal.__proto__ || Object.getPrototypeOf(LockUnlockModal)).call.apply(_ref, [this].concat(args))), _this), _this.handleClose = function () {
-      console.log('close clicked');
       _this.props.closeHandler();
     }, _this.handleLockUnlock = function (orderId) {
       _this.props.lockUnlockHandler(orderId);
@@ -73929,6 +73946,10 @@ var _AddItemsModalComponent2 = _interopRequireDefault(_AddItemsModalComponent);
 var _CancelOrderModalComponent = __webpack_require__(/*! ./CancelOrderModalComponent */ "./src/components/OrdersTable/CancelOrderModalComponent.js");
 
 var _CancelOrderModalComponent2 = _interopRequireDefault(_CancelOrderModalComponent);
+
+var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74098,8 +74119,6 @@ var AddNewOrder = function (_React$Component) {
         _this.changeItem = function (index, event) {
             var value = event.target.value;
             var items = _this.state.items;
-            console.log(items);
-            console.log(event.target.value);
             items[index][event.target.name] = value ? value : 1;
             _this.setState({ items: items });
         };
@@ -74162,6 +74181,21 @@ var AddNewOrder = function (_React$Component) {
             this.setState({ cancelModalOpen: false });
         }
     }, {
+        key: 'currentMonth',
+        value: function currentMonth() {
+            var date = new Date(),
+                y = date.getFullYear(),
+                m = date.getMonth();
+            var firstDay = new Date(y, m, 1);
+            var lastDay = new Date(y, m + 1, 0);
+            return {
+                currentDate: (0, _moment2.default)(date).format('YYYY-MM-DD'),
+                firstDay: (0, _moment2.default)(firstDay).format('YYYY-MM-DD'),
+                lastDay: (0, _moment2.default)(lastDay).format('YYYY-MM-DD')
+
+            };
+        }
+    }, {
         key: 'saveNewOrder',
         value: function saveNewOrder() {
             var itemsData = this.getExtPrice();
@@ -74188,6 +74222,7 @@ var AddNewOrder = function (_React$Component) {
             var classes = this.props.classes;
 
             var orderDeatils = this.getExtPrice();
+            var date = this.currentMonth();
             return _react2.default.createElement(
                 'div',
                 { className: classes.newOrderContainer },
@@ -74252,8 +74287,8 @@ var AddNewOrder = function (_React$Component) {
                                 'Date:'
                             ),
                             _react2.default.createElement('input', { type: 'date',
-                                max: '2018-01-06',
-                                min: '2018-30-06',
+                                min: date.firstDay,
+                                max: date.lastDay,
                                 disabled: this.state.locked,
                                 onChange: this.changeInput,
                                 name: 'date',
@@ -74495,7 +74530,7 @@ var AddNewOrder = function (_React$Component) {
                                     _react2.default.createElement(
                                         _TableCell2.default,
                                         null,
-                                        _react2.default.createElement(_Delete2.default, { onClick: _this2.handleItemDlete.bind(_this2, key) })
+                                        !_this2.state.locked ? _react2.default.createElement(_Delete2.default, { onClick: _this2.handleItemDlete.bind(_this2, key) }) : null
                                     )
                                 );
                             })
@@ -74684,7 +74719,6 @@ var OrdersTable = function (_React$Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = OrdersTable.__proto__ || Object.getPrototypeOf(OrdersTable)).call.apply(_ref, [this].concat(args))), _this), _this.onSortClcik = function (proparty) {
-            console.log(proparty);
             _this.props.onSortClcik(proparty);
         }, _this.isSelected = function (id) {
             return _this.props.selected.indexOf(id) !== -1;
@@ -74694,11 +74728,9 @@ var OrdersTable = function (_React$Component) {
             _this.props.handleOrderDelete(id);
         }, _this.searchOrderByID = function (event) {
             _this.props.searchOrderByID(event.target.value);
-            console.log(event.target.value);
         }, _this.handleOrderLock = function (id) {
             _this.props.handleOrderLock(id);
         }, _this.handleLockUnlockModalOpen = function (orderId) {
-            console.log(_this);
             _this.props.lockUnlockModalOpenHandler(orderId);
         }, _this.handleDeleteModalOpen = function (orderId) {
             _this.props.deleteModalOpenHandler(orderId);
@@ -75182,6 +75214,14 @@ var HomePage = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call(this, props));
 
+        _this.cancelChanges = function (id) {
+            var tabs = _this.state.tabs.filter(function (x) {
+                return x !== id;
+            });
+            _this.setState({ tabs: tabs });
+            _this.setState({ selectedTab: 'orders' });
+        };
+
         _this.handleNewTab = function (id) {
             var tabs = _this.state.tabs;
             if (!_this.state.tabs.includes(id)) {
@@ -75192,11 +75232,6 @@ var HomePage = function (_React$Component) {
         };
 
         _this.handleChange = function (event, value) {
-            var tabs = _this.state.tabs;
-            if (!_this.state.tabs.includes(value)) {
-                tabs.push(value);
-                _this.setState({ tabs: tabs });
-            }
             _this.setState({ selectedTab: value });
             _this.forceUpdate();
         };
@@ -75207,6 +75242,7 @@ var HomePage = function (_React$Component) {
             selectedTab: 'orders'
         };
         _this.handleNewTab = _this.handleNewTab.bind(_this);
+        _this.cancelChanges = _this.cancelChanges.bind(_this);
         return _this;
     }
 
@@ -75237,7 +75273,7 @@ var HomePage = function (_React$Component) {
                         });
                     })
                 ),
-                this.state.selectedTab === 'orders' ? _react2.default.createElement(_OrdersComponent2.default, { openNewTab: this.handleNewTab }) : _react2.default.createElement(_EditOrderComponent2.default, { orderId: this.state.selectedTab })
+                this.state.selectedTab === 'orders' ? _react2.default.createElement(_OrdersComponent2.default, { openNewTab: this.handleNewTab }) : _react2.default.createElement(_EditOrderComponent2.default, { orderId: this.state.selectedTab, onCancel: this.cancelChanges })
             );
         }
     }]);

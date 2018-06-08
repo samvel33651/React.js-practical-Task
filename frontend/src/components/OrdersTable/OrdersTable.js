@@ -80,7 +80,6 @@ class OrdersTable  extends React.Component {
     // };
 
     onSortClcik = (proparty) => {
-        console.log(proparty);
         this.props.onSortClcik(proparty);
     };
 
@@ -102,7 +101,6 @@ class OrdersTable  extends React.Component {
 
     searchOrderByID = event => {
         this.props.searchOrderByID(event.target.value);
-        console.log(event.target.value);
     }
 
     handleOrderLock = id => {
@@ -110,7 +108,6 @@ class OrdersTable  extends React.Component {
     };
 
     handleLockUnlockModalOpen = orderId => {
-        console.log(this);
         this.props.lockUnlockModalOpenHandler(orderId);
     };
 

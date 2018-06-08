@@ -40,7 +40,6 @@ class AddItem extends React.Component {
             }
         };
         handleClose = () => {
-            console.log('close clicked')
             this.props.handleClose();
         };
         handleSave() {

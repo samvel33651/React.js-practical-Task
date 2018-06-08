@@ -14,6 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import AddItem from './AddItemsModalComponent';
 import CancelOrder from './CancelOrderModalComponent';
+import Moment from 'moment';
 
 const editOrderStyles = theme => ({
   root: {
@@ -156,7 +157,6 @@ class EditOrder extends React.Component {
         super(props);
         let orders = JSON.parse(localStorage.getItem('orders'));
         let order = orders.find(x => x.id === this.props.orderId);
-        console.log(order)
         this.state = {
             id: order.id,
             date: order.date,
@@ -189,6 +189,19 @@ class EditOrder extends React.Component {
         } ;
     };
 
+    currentMonth() {
+        let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+        let firstDay = new Date(y, m, 1);
+        var lastDay = new Date(y, m + 1, 0);
+        return {
+            currentDate : Moment(date).format('YYYY-MM-DD'),
+            firstDay : Moment(firstDay).format('YYYY-MM-DD'),
+            lastDay : Moment(lastDay).format('YYYY-MM-DD'),
+
+        }
+
+    };
+
     handleItemDlete = index => {
         let items = this.state.items;
         items.splice(index, 1);
@@ -216,7 +229,7 @@ class EditOrder extends React.Component {
     };
 
     cancelOrder () {
-        this.props.cancelOrderChanges();
+        this.props.onCancel( this.state.id);
     };
 
     cancelModalCloseHandler() {
@@ -245,6 +258,7 @@ class EditOrder extends React.Component {
     render() {
         const {classes} =this.props;
         let orderDeatils = this.getExtPrice();
+        const date = this.currentMonth();
         return (
             <div className={classes.newOrderContainer}>
                 <h1>New Order</h1>
@@ -278,9 +292,9 @@ class EditOrder extends React.Component {
                             <label className={classes.inputLabel}>Date:</label>
 
                             <input type="date"
-                                max="2017-08-30"
-                                min="2017-01-09"
-                                value= {this.state.date}
+                                min = {date.firstDay}
+                                max = {date.lastDay}
+                                value= {date.currentDate}
                                 disabled= {this.state.locked}
                                 onChange={this.changeInput}
                                 name="date"
@@ -386,7 +400,11 @@ class EditOrder extends React.Component {
                                             {item.quantity *item.price}
                                         </TableCell>
                                         <TableCell>
-                                            <DeleteIcon onClick={this.handleItemDlete.bind(this, key)}/>
+                                            { !this.state.locked
+                                                ? <DeleteIcon onClick={this.handleItemDlete.bind(this, key)}/>
+                                                : null
+                                            }
+
                                         </TableCell>
                                     </TableRow>
                                    )
