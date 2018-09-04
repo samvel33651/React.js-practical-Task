@@ -1,7 +1,9 @@
 
-Django "Frontend" Task
+React.js practical task
+
 Step 1: 
 Install packages from requirements.txt file
+
 Step 2:
 Go to the frontend directory 
 
